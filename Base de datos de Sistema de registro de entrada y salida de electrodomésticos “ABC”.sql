@@ -1,4 +1,4 @@
--- Base de datos de Sistema de registro de entrada y salida de electrodomésticos “ABC”
+-- Base de datos de Sistema de registro de entrada y salida de electrodomÃ©sticos â€œABCâ€
 -- Autor: grupo las chicas super poderosas
 -- 21/02/2025
 
@@ -21,7 +21,7 @@ go
 use RegistroElectroDomesticos
 go
 
--- Crear tabla de electrodomésticos
+-- Crear tabla de electrodomÃ©sticos
 create table Electrodomestico (
     idElectrodomestico int primary key identity(1,1),
     nombre nvarchar(50) not null,
