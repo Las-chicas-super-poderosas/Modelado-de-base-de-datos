@@ -1,0 +1,81 @@
+USE basetramites;
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS ObtenerSolicitantesRecibo$$
+
+CREATE PROCEDURE ObtenerSolicitantesRecibo()
+BEGIN
+    SELECT idS, nombresS
+    FROM tSolicitante
+    WHERE idS IN (
+        SELECT idS
+        FROM tTramite
+        WHERE idT IN (
+            SELECT idT
+            FROM tRecibo_Tramite
+        )
+    );
+END$$
+
+DELIMITER ;
+
+-- Mostrar las denominaciones de los conceptos por los que se hayan pagado recibos
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS ObtenerDenominacionesConceptos$$
+
+CREATE PROCEDURE ObtenerDenominacionesConceptos()
+BEGIN
+SELECT idC, denominacionC
+ FROM tconcepto
+ WHERE idC IN (SELECT idC FROM trecibo);
+END$$
+
+DELIMITER ;
+
+-- 5.4. Mostrar las denominaciones de las oficinas que estén relacionadas con trámites. 
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS ObtenerDenominacionesTramites$$
+
+CREATE PROCEDURE ObtenerDenominacionesTramites()
+BEGIN
+SELECT idO, denominacionO
+ FROM toficina
+ WHERE idO IN (SELECT idO
+ FROM ttramite);
+END$$
+
+DELIMITER ;
+
+-- 5.5. Mostrar las denominaciones de las oficinas que hayan generado dinero a la Universidad.
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS ObtenerDenominacionesOficinas$$
+
+CREATE PROCEDURE ObtenerDenominacionesOficinas()
+BEGIN
+SELECT idO, denominacionO
+FROM toficina
+ WHERE idO IN (SELECT idO
+ FROM ttramite
+ WHERE idT IN (SELECT idT
+ FROM tRecibo_Tramite));
+END$$
+
+DELIMITER ;
+
+-- 5.6. Mostrar las denominaciones de los conceptos que no hayan generado dinero
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS ObtenerDenominacionesNoPago$$
+
+CREATE PROCEDURE ObtenerDenominacionesNoPago()
+BEGIN
+SELECT idC, denominacionC
+ FROM tconcepto
+ WHERE idC NOT IN (SELECT idC
+ FROM trecibo);
+END$$
+
+DELIMITER ;
